@@ -5,7 +5,6 @@ Program description: Import DataCenter files in MongoDB using gridFS
 Author: Akshay Kale
 '''
 #!/usr/bin/python
-
 #importing library
 
 from pymongo import MongoClient
@@ -13,7 +12,7 @@ import gridfs
 import os
 import time
 
-inputDir = 'DCHUB'            #input directory, containing subfolders and files to be imported in MongoDB
+inputDir = 'DCHUB'            #Input directory, containing subfolders and files to be imported in MongoDB
 client = MongoClient()        #creation of MongoClient
 client.drop_database("DCHUB") #Delete already exisiting database
 db = client.DCHUB             #Create new database in MongoDB

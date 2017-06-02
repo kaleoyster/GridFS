@@ -1,3 +1,9 @@
+'''
+python version: 3.x
+Program description: contains createQuery function which creates a custom query.
+Author: Akshay Kale
+'''
+#!/usr/bin/python
 #importing Abstract Syntax Trees
 import ast
 

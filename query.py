@@ -1,11 +1,9 @@
 '''
 python version: 3.x
-Program description: Import DataCenter files in MongoDB using gridFS
-
+Program description: Program allows you to query using interactive interface
 Author: Akshay Kale
 '''
 #!/usr/bin/python
-
 #importing library
 from pymongo import MongoClient
 import gridfs 
@@ -16,15 +14,15 @@ import time
 from queryBuilder import createQuery
 
 print('Connecting to MongoDB...DCHUB')
-client = MongoClient()        #creation of MongoClient
-db = client.DCHUB             #contects to database in MongoDB
+client = MongoClient()        #Creation of MongoClient
+db = client.DCHUB             #Connects to database in MongoDB
 fs = gridfs.GridFS(db)        #Creation of instance of GridFS
 print("Connected..")
 
 # Global variables, required for query
 results = []
 	
-# returns filename, extention from file name
+# getData takes query as input returns a list of result 
 def getData(query):
     dataArr = []
     for gridOut in fs.find(query):
