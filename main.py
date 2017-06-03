@@ -12,7 +12,10 @@ import gridfs
 import os
 import time
 
-inputDir = 'DCHUB'            #Input directory, containing subfolders and files to be imported in MongoDB
+#importing python files 
+from map import createMap, searchStruct
+
+inputDir = 'DCHUB'           #Input directory, containing subfolders and files to be imported in MongoDB
 client = MongoClient()        #creation of MongoClient
 client.drop_database("DCHUB") #Delete already exisiting database
 db = client.DCHUB             #Create new database in MongoDB
@@ -25,7 +28,9 @@ def splittext(fname):
 
 #Driver function
 def main():
-    count = 0   # counter for total number of files    
+    D = {}           # Dictionary, containing mapping of caseId and Structure Number
+    print(createMap(D)) # creates a Map
+    count = 0        # counter for total number of files    
     for root, dirs, files in os.walk(inputDir):
         for f in files:
             count = count + 1
@@ -33,12 +38,14 @@ def main():
             pathList = fullpath.split(os.sep) 
             _, caseId , folderType, fileName = pathList #unpacking of pathList
             filePrefix, fileExtention = splittext(fileName)
+            structureNumber = searchStruct(caseId,D)
             data = open(fullpath,'rb')
             thedata = data.read()   
             stored = fs.put(thedata,
-                            fileName=fileName,      #example: "fileName":"C000101215-2008-024.JPG"
-                            caseId = caseId,        #example: 'caseId':'333380240'
-                            folderType=folderType,  #example: 'folderType':'drawings'                                      
+                            fileName=fileName,              #example: "fileName":"C000101215-2008-024.JPG"
+                            caseId = caseId,                #example: 'caseId':'333380240'
+                            folderType=folderType,          #example: 'folderType':'drawings'    
+                            structureNumber=structureNumber                                   
                             ) 
             print('[ + ] Storing ..'+ fullpath +'') #prints full path of file which is imported in MongoDB
     print("Total file Stored: ", count)             #prints total count of file imported in MongoDB     

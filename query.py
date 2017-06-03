@@ -30,6 +30,10 @@ def getData(query):
         dataArr.append(data)
     return dataArr
 
+def saveFile(fileName,data):
+    with open(fileName,"wb") as f:
+         f.write(data)
+
 #Driver function
 def main():
     caseId = ''
@@ -40,8 +44,9 @@ def main():
     fileName = input("Enter fileName: ")
     query = createQuery(caseId,folderType,fileName)
     #print(query)
-    results = getData(query)
+    result = getData(query)
     print(results)
+    f.close()
 
 #Main function
 if __name__ == "__main__":
