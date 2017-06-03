@@ -11,6 +11,8 @@ from pymongo import MongoClient
 import gridfs 
 import os
 import time
+from collections import Counter
+
 
 #importing python files 
 from map import createMap, searchStruct
@@ -28,17 +30,25 @@ def splittext(fname):
 
 #Driver function
 def main():
+    #FileType = {}
     D = {}           # Dictionary, containing mapping of caseId and Structure Number
-    print(createMap(D)) # creates a Map
-    count = 0        # counter for total number of files    
+    createMap(D)     # creates a Map
+   # print(D) 
+   # print("structureNumber for case ID: ",D['334824132'])
+    FileCounter = 0        # counter for total number of files
+    ExtentionArr = []      #    
     for root, dirs, files in os.walk(inputDir):
         for f in files:
-            count = count + 1
+            FileCount = FileCounter + 1
             fullpath = os.path.join(root,f)
             pathList = fullpath.split(os.sep) 
             _, caseId , folderType, fileName = pathList #unpacking of pathList
             filePrefix, fileExtention = splittext(fileName)
-            structureNumber = searchStruct(caseId,D)
+            ExtentionArr.append(fileExtention)
+            case = str(caseId)
+            #print(case)
+            structureNumber = D[case]
+            print("Structure Number : ", structureNumber)
             data = open(fullpath,'rb')
             thedata = data.read()   
             stored = fs.put(thedata,
@@ -48,8 +58,14 @@ def main():
                             structureNumber=structureNumber                                   
                             ) 
             print('[ + ] Storing ..'+ fullpath +'') #prints full path of file which is imported in MongoDB
-    print("Total file Stored: ", count)             #prints total count of file imported in MongoDB     
-
+    print("Total file Stored: ", FileCounter)             #prints total count of file imported in MongoDB
+    #print("FileExtenion: ", ExtentionArr)     
+    #k = Counter(ExtentionArr).keys()
+    #v = Counter(ExtentionArr).values()
+    #for a,b in zip(k,v):
+    #    FileType[a] = b
+    
+    #print(FileType)
 #Main function
 if __name__ == "__main__":
   startTime = time.time()
