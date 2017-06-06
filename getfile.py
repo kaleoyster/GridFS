@@ -25,7 +25,7 @@ results = []
 # getData takes query as input returns a list of result 
 def getData(query):
     data = ''
-    for gridOut in fs.find({"caseId":"334824177","folderType":"media","fileName":"C000102305P_Y11_Abutment 		2.jpg"}):
+    for gridOut in fs.find({"caseId":"334824177","folderType":"media","fileName":"C000102305P_Y11_Looking north at Bent 1.jpg"}):
         data = gridOut
         data = data.read()
         #dataArr.append(data)
